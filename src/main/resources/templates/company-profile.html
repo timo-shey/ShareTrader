@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Company Profile</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/company-profile.css}"/>
+
+</head>
+
+<body>
+<nav>
+  <ul>
+    <li><a th:href="@{/home/users/{id}(id=${session.id})}">Home</a></li>
+    <li><a href="/shares/company-profile">Dashboard</a></li>
+    <li><a href="/shares/buy">Buy Shares</a></li>
+    <li><a href="/shares/sell">Sell Shares</a></li>
+    <li><a href="/transactions">Transaction History</a></li>
+    <li><a href="/convert">Currency Conversion</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+  <h4>Welcome, <span th:text="${session.name}"></span>!</h4>
+  <h4>Balance: GBP <span th:text="${walletBalance}"></span> </h4>
+  <button><a href="/wallet/top-up"> Wallet Top up</a></button>
+</nav>
+
+<h1>Company Profile</h1>
+<form action="/shares/company-profile" method="POST">
+  <label for="symbol">Enter Share Symbol:</label>
+  <input type="text" id="symbol" name="symbol" required>
+  <button type="submit">Get Company Profile</button>
+</form>
+<hr>
+<div th:if="${companyProfile != null}">
+  <h2>Company Profile:</h2>
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td th:text="${companyProfile.name}"></td>
+    </tr>
+    <tr>
+      <td>Ticker:</td>
+      <td th:text="${companyProfile.ticker}"></td>
+    </tr>
+    <tr>
+      <td>Exchange:</td>
+      <td th:text="${companyProfile.exchange}"></td>
+    </tr>
+    <tr>
+      <td>Currency:</td>
+      <td th:text="${companyProfile.currency}"></td>
+    </tr>
+    <tr>
+      <td>Market Capitalization:</td>
+      <td th:text="${companyProfile.marketCapitalization}"></td>
+    </tr>
+    <tr>
+      <td>Share Outstanding:</td>
+      <td th:text="${companyProfile.shareOutstanding}"></td>
+    </tr>
+    <tr>
+      <td>Share IPO:</td>
+      <td th:text="${companyProfile.ipo}"></td>
+    </tr>
+    <tr>
+      <td>Exchange:</td>
+      <td th:text="${companyProfile.exchange}"></td>
+    </tr>
+    <tr>
+      <td>Web URL:</td>
+      <td><a th:href="${companyProfile.weburl}" th:text="${companyProfile.weburl}"></a></td>
+    </tr>
+    <tr>
+      <td>Logo:</td>
+      <td><img th:src="${companyProfile.logo}" /></td>
+    </tr>
+  </table>
+</div>
+<div th:if="${companyNews != null}">
+  <h2>Company News:</h2>
+  <ul>
+    <li th:each="news : ${companyNews}">
+      <h3 th:utext="${news.headline}"></h3>
+      <p><span>Source:</span> <span th:utext="${news.source}"></span></p>
+      <p><span>Summary:</span> <span th:utext="${news.summary}"></span></p>
+      <p><span>URL:</span> <a th:href="${news.url}" th:text="${news.url}"></a></p>
+      <hr>
+    </li>
+  </ul>
+</div>
+</body>
+</html>

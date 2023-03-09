@@ -13,13 +13,17 @@ public class Share {
     private String companySymbol;
     private int numShares;
     private String shareCurrency;
-    private double sharePrice;
+    private Double sharePrice;
     private LocalDateTime lastUpdate;
+
+    @ManyToOne()
+    @JoinColumn(name = "Users_id")
+    private User user;
 
     public Share() {
     }
 
-    public Share(Long shareId, String companyName, String companySymbol, int numShares, String shareCurrency, double sharePrice, LocalDateTime lastUpdate) {
+    public Share(Long shareId, String companyName, String companySymbol, int numShares, String shareCurrency, Double sharePrice, LocalDateTime lastUpdate) {
         this.shareId = shareId;
         this.companyName = companyName;
         this.companySymbol = companySymbol;
@@ -69,11 +73,11 @@ public class Share {
         this.shareCurrency = shareCurrency;
     }
 
-    public double getSharePrice() {
+    public Double getSharePrice() {
         return sharePrice;
     }
 
-    public void setSharePrice(double sharePrice) {
+    public void setSharePrice(Double sharePrice) {
         this.sharePrice = sharePrice;
     }
 

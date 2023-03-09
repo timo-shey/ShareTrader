@@ -1,49 +1,23 @@
-package com.example.SharesBrokeringSystem.model;
+package com.example.SharesBrokeringSystem.dto;
 
-import jakarta.persistence.*;
+import com.example.SharesBrokeringSystem.model.User;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Table(name = "transaction")
-@Entity
-public class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TransactionForm {
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
-
-    @Column(name = "type")
     private String type;
-
-    @Column(name = "symbol")
     private String symbol;
-    @Column(name = "currency")
     private String currency;
-
-    @Column(name = "quantity")
     private int quantity;
-
-    @Column(name = "price")
     private Double price;
-
-    @Column(name = "priceGBP")
     private Double priceGBP;
-
-    @Column(name = "total")
     private Double total;
-    @Column(name = "balance")
-    private Double balance;
+    private Double walletBalance;
+    private String datetime;
 
-    @Column(name = "datetime")
-    private String date;
-
-    public Transaction() {}
-
-    public Transaction(Long id, User user, String type, String symbol, String currency, int quantity, Double price, Double priceGBP, Double total, Double balance, String date) {
+    public TransactionForm(Long id, User user, String type, String symbol, String currency, int quantity, Double price, Double priceGBP, Double total, Double walletBalance, String datetime) {
         this.id = id;
         this.user = user;
         this.type = type;
@@ -53,8 +27,8 @@ public class Transaction {
         this.price = price;
         this.priceGBP = priceGBP;
         this.total = total;
-        this.balance = balance;
-        this.date = date;
+        this.walletBalance = walletBalance;
+        this.datetime = datetime;
     }
 
     public Double getPriceGBP() {
@@ -65,20 +39,12 @@ public class Transaction {
         this.priceGBP = priceGBP;
     }
 
-    public String getDate() {
-        return date;
+    public Double getWalletBalance() {
+        return walletBalance;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setWalletBalance(Double walletBalance) {
+        this.walletBalance = walletBalance;
     }
 
     public String getCurrency() {
@@ -87,6 +53,9 @@ public class Transaction {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public TransactionForm() {
     }
 
     public Long getId() {
@@ -145,4 +114,11 @@ public class Transaction {
         this.total = total;
     }
 
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
 }

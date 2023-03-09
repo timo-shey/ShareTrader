@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sell Shares</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/sell_shares.css}"/>
+</head>
+
+  <body>
+  <nav>
+    <ul>
+      <li><a th:href="@{/home/users/{id}(id=${session.id})}">Home</a></li>
+      <li><a href="/shares/company-profile">Dashboard</a></li>
+      <li><a href="/shares/buy">Buy Shares</a></li>
+      <li><a href="/shares/sell">Sell Shares</a></li>
+      <li><a href="/transactions">Transaction History</a></li>
+      <li><a href="/convert">Currency Conversion</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+    <h4>Welcome, <span th:text="${session.name}"></span>!</h4>
+    <h4>Balance: GBP <span th:text="${walletBalance}"></span> </h4>
+    <button><a href="/wallet/top-up"> Wallet Top up</a></button>
+  </nav>
+  <div class="parent-container">
+    <div class="container">
+      <h2>Hi, <span th:text="${user.username}"></span>!</h2>
+      <h3>Your Shares:</h3>
+      <div th:if="${user.portfolio == null}" class="absent">
+        <p>No shares found.</p>
+        <button><a href="/shares/buy">Buy Shares</a></button>
+        <button><a href="/wallet/top-up">Wallet Top-Up</a></button>
+      </div>
+      <div th:if="${user.portfolio != null}">
+        <table>
+          <thead>
+          <tr>
+            <th>Company Name</th>
+            <th>Company Symbol</th>
+            <th>Number of Shares</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="share : ${user.portfolio.holdings}">
+            <td th:text="${shareService.getCompanyName(share.key)}"></td>
+            <td th:text="${share.key}"></td>
+            <td th:text="${share.value}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="container">
+    <h1>Sell Shares</h1>
+<form action="/shares/sell" method="POST">
+  <label for="symbol">Symbol:</label>
+  <select id="symbol" name="symbol" required>
+    <option value="" selected disabled>Select a company</option>
+    <option th:each="symbol : ${ownedSymbols}" th:value="${symbol}" th:text="${shareService.getCompanyName(symbol)}"></option>
+  </select>
+
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity" required>
+  <button type="submit">Sell</button>
+</form>
+  </div>
+</div>
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+      {
+        "description": "Tesla",
+        "proName": "NASDAQ:TSLA"
+      },
+      {
+        "description": "Apple",
+        "proName": "NASDAQ:AAPL"
+      },
+      {
+        "description": "Amazon",
+        "proName": "NASDAQ:AMZN"
+      },
+      {
+        "description": "Meta",
+        "proName": "NASDAQ:META"
+      },
+      {
+        "description": "Microsoft",
+        "proName": "NASDAQ:MSFT"
+      },
+      {
+        "description": "Netflix",
+        "proName": "NASDAQ:NFLX"
+      },
+      {
+        "description": "Google",
+        "proName": "NASDAQ:GOOGL"
+      }
+    ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+    }
+  </script>
+</div>
+<!-- TradingView Widget END -->
+</body>
+</html>

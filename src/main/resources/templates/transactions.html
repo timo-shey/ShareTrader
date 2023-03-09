@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/transactions.css}"/>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a th:href="@{/home/users/{id}(id=${session.id})}">Home</a></li>
+        <li><a href="/shares/company-profile">Dashboard</a></li>
+        <li><a href="/shares/buy">Buy Shares</a></li>
+        <li><a href="/shares/sell">Sell Shares</a></li>
+        <li><a href="/transactions">Transaction History</a></li>
+        <li><a href="/convert">Currency Conversion</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+    <h4>Welcome, <span th:text="${session.name}"></span>!</h4>
+    <h4>Balance: GBP <span th:text="${walletBalance}"></span> </h4>
+    <button><a href="/wallet/top-up"> Wallet Top up</a></button>
+</nav>
+<div class="container">
+    <h1>Transactions</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Symbol</th>
+            <th>Currency</th>
+            <th>Shares</th>
+            <th>Price Per Share</th>
+            <th>Price Per Share(GBP)</th>
+            <th>Total</th>
+            <th>Wallet Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transaction : ${transactions}">
+            <td th:text="${transaction.date}"></td>
+            <td th:text="${transaction.type}"></td>
+            <td th:text="${transaction.symbol}"></td>
+            <td th:text="${transaction.currency}"></td>
+            <td th:text="${transaction.quantity}"></td>
+            <td th:text="${transaction.currency + ' ' + transaction.price}"></td>
+            <td th:text="'GBP ' + ${transaction.priceGBP}"></td>
+            <td th:text="'GBP ' + ${transaction.total}"></td>
+            <td th:text="'GBP ' + ${transaction.balance}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+            "symbols": [
+            {
+                "description": "Tesla",
+                "proName": "NASDAQ:TSLA"
+            },
+            {
+                "description": "Apple",
+                "proName": "NASDAQ:AAPL"
+            },
+            {
+                "description": "Amazon",
+                "proName": "NASDAQ:AMZN"
+            },
+            {
+                "description": "Meta",
+                "proName": "NASDAQ:META"
+            },
+            {
+                "description": "Microsoft",
+                "proName": "NASDAQ:MSFT"
+            },
+            {
+                "description": "Netflix",
+                "proName": "NASDAQ:NFLX"
+            },
+            {
+                "description": "Google",
+                "proName": "NASDAQ:GOOGL"
+            }
+        ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+        }
+    </script>
+</div>
+<!-- TradingView Widget END -->
+</body>
+</html>

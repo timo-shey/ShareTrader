@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Currency Conversion</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/conversion-form.css}"/>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a th:href="@{/home/users/{id}(id=${session.id})}">Home</a></li>
+    <li><a href="/shares/company-profile">Dashboard</a></li>
+    <li><a href="/shares/buy">Buy Shares</a></li>
+    <li><a href="/shares/sell">Sell Shares</a></li>
+    <li><a href="/transactions">Transaction History</a></li>
+    <li><a href="/convert">Currency Conversion</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+  <h4>Welcome, <span th:text="${session.name}"></span>!</h4>
+  <h4>Balance: GBP <span th:text="${walletBalance}"></span> </h4>
+  <button><a href="/wallet/top-up"> Wallet Top up</a></button>
+</nav>
+<div class="parent-container">
+  <div class="container1">
+<!-- TradingView Widget BEGIN -->
+<div class="tradingvie-widget-container">
+  <div class="tradingvie-widget-container__widget"></div>
+  <div class="tradingvie-widget-copyright"><a href="https://www.tradingview.com/markets/currencies/" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-cross-rates.js" async>
+    {
+      "width": 770,
+            "height": 400,
+            "currencies": [
+      "GBP",
+      "USD",
+      "EUR",
+      "JPY",
+      "CHF",
+      "AUD",
+      "CAD",
+      "NZD"
+    ],
+            "isTransparent": false,
+            "colorTheme": "dark",
+            "locale": "en"
+    }
+  </script>
+</div>
+<!-- TradingView Widget END -->
+  </div>
+
+  <div class="container">
+<h1>Currency Conversion</h1>
+<form th:object="${conversion}" th:action="@{/convert}" method="post">
+  <label>From:</label>
+  <select th:field="*{from}">
+    <option value="GBP">GBP</option>
+  </select>
+  <br/><br/>
+  <label>To:</label>
+  <select th:field="*{to}">
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+    <option value="JPY">JPY</option>
+    <option value="AED">AED</option>
+    <option value="ARS">ARS</option>
+    <option value="AUD">AUD</option>
+    <option value="BGN">BGN</option>
+    <option value="BRL">BRL</option>
+    <option value="BWP">BWP</option>
+    <option value="CAD">CAD</option>
+    <option value="CHF">CHF</option>
+    <option value="CLP">CLP</option>
+    <option value="CNY">CNY</option>
+    <option value="COP">COP</option>
+    <option value="DKK">DKK</option>
+    <option value="EGP">EGP</option>
+    <option value="HKD">HKD</option>
+    <option value="HRK">HRK</option>
+    <option value="HUF">HUF</option>
+    <option value="ILS">ILS</option>
+    <option value="INR">INR</option>
+    <option value="ISK">ISK</option>
+    <option value="KRW">KRW</option>
+    <option value="KZT">KZT</option>
+    <option value="LKR">LKR</option>
+    <option value="LYD">LYD</option>
+    <option value="MXN">MXN</option>
+    <option value="ZAR">ZAR</option>
+  </select>
+  <br/><br/>
+
+  <label>Amount:</label>
+  <input type="text" th:field="*{amount}"/><br/><br/>
+    <label>Exchange Rate:</label>
+    <span th:text="${exchangeRate}"></span><br/><br/>
+  <input type="submit" value="Convert"/><br/><br/>
+  <div class="conversion-result">
+    <label>Result:</label>
+    <span th:text="${convertedAmount}"></span><br/><br/>
+  </div>
+</form>
+  </div>
+</div>
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/" rel="noopener" target="_blank"><span class="blue-text"></span></a></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+      {
+        "description": "Tesla",
+        "proName": "NASDAQ:TSLA"
+      },
+      {
+        "description": "Apple",
+        "proName": "NASDAQ:AAPL"
+      },
+      {
+        "description": "Amazon",
+        "proName": "NASDAQ:AMZN"
+      },
+      {
+        "description": "Meta",
+        "proName": "NASDAQ:META"
+      },
+      {
+        "description": "Microsoft",
+        "proName": "NASDAQ:MSFT"
+      },
+      {
+        "description": "Netflix",
+        "proName": "NASDAQ:NFLX"
+      },
+      {
+        "description": "Google",
+        "proName": "NASDAQ:GOOGL"
+      }
+    ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+    }
+  </script>
+</div>
+<!-- TradingView Widget END -->
+</body>
+</html>

@@ -2,6 +2,9 @@ package com.example.SharesBrokeringSystem.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Table(name = "Users")
 @Entity
 public class User {
@@ -13,17 +16,26 @@ public class User {
     private String name;
     private String email;
     private String phone;
+    private Double wallet;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Portfolio portfolio;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Share> shares;
 
     public User() {
     }
 
-    public User(Long userId, String username, String password, String name, String email, String phone) {
+    public User(Long userId, String username, String password, String name, String email, String phone, Double wallet, Portfolio portfolio, List<Share> shares) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.wallet = wallet;
+        this.portfolio = portfolio;
+        this.shares = new ArrayList<>();
     }
 
     public Long getUserId() {
@@ -74,6 +86,30 @@ public class User {
         this.phone = phone;
     }
 
+    public List<Share> getShares() {
+        return shares;
+    }
+
+    public void setShares(List<Share> shares) {
+        this.shares = shares;
+    }
+
+    public Double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Double wallet) {
+        this.wallet = wallet;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -83,6 +119,9 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", wallet=" + wallet +
+                ", portfolio=" + portfolio +
+                ", shares=" + shares +
                 '}';
     }
 }
